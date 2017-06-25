@@ -1,0 +1,47 @@
+apply plugin: 'java'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework:spring-jdbc")
+    compile("com.h2database:h2")
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.easymock', name: 'easymock', version: '3.4'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
+
+}
+
+configureTest(test)
+
+def configureTest(Test testTask) {
+    testTask.setSystemProperties(System.getProperties().asImmutable())
+
+    testTask.testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
